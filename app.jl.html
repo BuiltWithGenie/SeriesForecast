@@ -1,1 +1,66 @@
-<h1>train and predict</h1><q-btn :loading="start" label="Train" v-on:click="start = true"></q-btn><q-range :min=1 v-model="r" :max=100 :step=1></q-range><plotly :data="temp_pdata" :layout="temp_layout" :displaylogo="false"></plotly><plotly :data="hum_pdata" :layout="hum_layout" :displaylogo="false"></plotly><plotly :data="wind_pdata" :layout="wind_layout" :displaylogo="false"></plotly><plotly :data="press_pdata" :layout="press_layout" :displaylogo="false"></plotly>
+<h1 style="text-align: center; color: #2c3e50; margin-bottom: 2rem; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 2.5rem; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);">Delhi weather forecast</h1>
+
+<div class="row  st-module" style="padding:15px">
+    <div class="col-3 col-sm">
+        <q-badge color="secondary">
+                        Prediction horizon (samples)
+        </q-badge>
+        <q-slider :min=30 v-model="r" :max=100 :step=1 label-always></q-slider>
+        <q-badge color="secondary">
+                        Prediction step size (samples)
+        </q-badge>
+        <div class="q-gutter-sm">
+            <q-radio val=1 label="1" v-model="pstep"></q-radio>
+            <q-radio val=2 label="2" v-model="pstep"></q-radio>
+            <q-radio val=5 label="5" v-model="pstep"></q-radio>
+        </div>
+    </div>
+    <div class="col-3 col-sm" style="text-align:center">
+        <q-btn :loading="start" label="Train" v-on:click="start = true" color="$button_color" :disable="$disable_train">
+           <q-tooltip>
+       $button_tooltip
+    </q-tooltip>
+        </q-btn><br>
+        <q-btn style="margin-top:15px" :loading="animate" label="Animate" v-on:click="animate = true" color="primary"></q-btn><br>
+   <q-btn style="margin-top:15px" push color="secondary" label="app info">
+      <q-popup-proxy>
+        <q-banner>
+            This app uses a neural ordinary differential equation (NODE) to forecast weather data from Delhi. The forecast is implemented with the DiffeqFlux, DifferentialEquations, Optimization and Lux packages, and the code is based on the <a href="https://sebastiancallh.github.io/post/neural-ode-weather-forecast/">blog post</a> by Sebastian Callh.
+        </q-banner>
+      </q-popup-proxy>
+    </q-btn>
+    </div>
+    <div class=" col-5">
+        <h4 style="text-align:center;margin:0px">Mean-squared error</h4>
+<div class="row">
+        <st-big-number :number="mse[0]" title="Temperature" ></st-big-number>
+        <st-big-number :number="mse[1]" title="Humidity" ></st-big-number>
+        <st-big-number :number="mse[2]" title="Wind" ></st-big-number>
+        <st-big-number :number="mse[3]" title="Pressure" ></st-big-number>
+    </div>
+    </div>
+</div>
+<div class="row">
+    <div class="st-col col-12 st-module">
+        <div class="row">
+            <div class="st-col col-12 col-sm ">
+                <h4 style="text-align:center;margin:0px">Temperature</h4>
+                <plotly :data="temp_pdata" :layout="temp_layout" :displaylogo="false"></plotly>
+            </div>
+            <div class="st-col col-12 col-sm ">
+                <h4 style="text-align:center;margin:0px">Humidity</h4>
+                <plotly :data="hum_pdata" :layout="hum_layout" :displaylogo="false"></plotly>
+            </div>
+        </div>
+        <div class="row">
+            <div class="st-col col-12 col-sm ">
+                <h4 style="text-align:center;margin:0px">Wind</h4>
+                <plotly :data="wind_pdata" :layout="wind_layout" :displaylogo="false"></plotly>
+            </div>
+            <div class="st-col col-12 col-sm ">
+                <h4 style="text-align:center;margin:0px">Pressure</h4>
+                <plotly :data="press_pdata" :layout="press_layout" :displaylogo="false"></plotly>
+            </div>
+        </div>
+    </div>
+</div>

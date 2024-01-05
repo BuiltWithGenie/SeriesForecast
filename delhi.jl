@@ -1,9 +1,9 @@
 module Delhi
-using DataFrames, CSV, Dates, Statistics, Plots
+using DataFrames, CSV, Dates, Statistics
 
 
 features = [:meantemp, :humidity, :wind_speed, :meanpressure]
-units = ["Celcius", "g/m³ of water", "km/h", "hPa"]
+units = ["Celsius", "g/m³ of water", "km/h", "hPa"]
 feature_names = ["Mean temperature", "Humidity", "Wind speed", "Mean pressure"]
 
 """Loads the entire Delhi dataset into a single dataframe."""
@@ -14,18 +14,18 @@ function load()
     )
 end
 
-"""Plots each feature as a time series."""
-function plot_features(df)
-    plots = map(enumerate(zip(features, feature_names, units))) do (i, (f, n, u))
-        plot(df[:, :date], df[:, f],
-             title=n, label=nothing,
-             ylabel=u, size=(800, 600),
-             color=i)
-    end
-
-    n = length(plots)
-    plot(plots..., layout=(Int(n / 2), Int(n / 2)))
-end
+#= """Plots each feature as a time series.""" =#
+#= function plot_features(df) =#
+#=     plots = map(enumerate(zip(features, feature_names, units))) do (i, (f, n, u)) =#
+#=         plot(df[:, :date], df[:, f], =#
+#=              title=n, label=nothing, =#
+#=              ylabel=u, size=(800, 600), =#
+#=              color=i) =#
+#=     end =#
+#==#
+#=     n = length(plots) =#
+#=     plot(plots..., layout=(Int(n / 2), Int(n / 2))) =#
+#= end =#
 
 function normalize(x)
     μ = mean(x; dims=2)
@@ -58,7 +58,7 @@ function preprocess(raw_df, num_train=20)
     return (
         vec(t_train), y_train,
         vec(t_test),  y_test,
-        (t_mean, t_scale),
+        (t_mean[1], t_scale[1]), # these are 1-element matrices
         (y_mean, y_scale)
     )
 end

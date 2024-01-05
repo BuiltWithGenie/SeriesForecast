@@ -1,3 +1,4 @@
+module NodeUtils
 using Random
 using Dates
 using Optimization
@@ -7,7 +8,8 @@ using DiffEqFlux: NeuralODE, swish
 using DifferentialEquations
 using ComponentArrays
 using Observables
-#= using BSON: @save, @load =#
+
+export neural_ode, train
 
 include(joinpath( "delhi.jl"))
 #= include(joinpath("..", "src", "figures.jl")) =#
@@ -47,7 +49,7 @@ function train(t, y, obs_grid, maxiters, lr, rng, θs , losses; kwargs...)
         (θ, loss) -> begin
         push!(θs, copy(θ))
         push!(losses, loss)
-        #= notify(parcopy) =#
+        notify(parcopy)
         false
     end
 
@@ -70,4 +72,5 @@ function train(t, y, obs_grid, maxiters, lr, rng, θs , losses; kwargs...)
         notify(θs)
     end
     θs, state, losses
+end
 end
