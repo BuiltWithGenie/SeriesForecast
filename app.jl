@@ -1,18 +1,18 @@
+module App
 using GenieFramework, PlotlyBase, JLD2, Statistics, DataFrames
 using Interpolations
 using Random
-#= include("NodeUtils.jl") =#
-using .NodeUtils
-using .Delhi
-#= include("delhi.jl") =#
-#= include("utils.jl") =#
+# these modules are automatically loaded when running Genie.loadapp()
+using ..NodeUtils
+using ..Delhi
+using ..Utils
 @genietools
 
-prod_mode = (haskey(ENV, "GENIE_ENV") && ENV["GENIE_ENV"] == "prod") ? "true" : "false"
-button_color = prod_mode == "true" ? "grey" : "primary"
-button_tooltip = prod_mode == "true" ? "Run the app locally to enable this button" : ""
+const prod_mode = (haskey(ENV, "GENIE_ENV") && ENV["GENIE_ENV"] == "prod") ? "true" : "false"
+const button_color = prod_mode == "true" ? "grey" : "primary"
+const button_tooltip = prod_mode == "true" ? "Run the app locally to enable this button" : ""
 
-rng = MersenneTwister(123)
+const rng = MersenneTwister(123)
 if isfile("data.jld2")
     @load "data.jld2" train_df test_df scaling
 else
@@ -24,14 +24,14 @@ end
 if isfile("params.jld")
     @load "params.jld" θ
 end
-features = [:meantemp, :humidity, :wind_speed, :meanpressure]
-units = ["Celsius", "g/m³ of water", "km/h", "hPa"]
-feature_names = ["Mean temperature", "Humidity", "Wind speed", "Mean pressure"]
+const features = [:meantemp, :humidity, :wind_speed, :meanpressure]
+const units = ["Celsius", "g/m³ of water", "km/h", "hPa"]
+const feature_names = ["Mean temperature", "Humidity", "Wind speed", "Mean pressure"]
 
 
-data = vcat(train_df, test_df)
+const data = vcat(train_df, test_df)
 # Functions to interpolate when calculating the MSE
-interpolators = [LinearInterpolation(data.t, data[!, col]) for col in names(data)]
+const interpolators = [LinearInterpolation(data.t, data[!, col]) for col in names(data)]
 
 
 # NODE parameters
@@ -48,7 +48,7 @@ t_grid = range(minimum(data.t), maximum(data.t), length=N_steps) |> collect
     @in start=false
     @in animate=false
     @out prod_mode = prod_mode
-    @out θ=θ_new
+    @out θ=θ
     @out losses = Float32[]
     @out temp_pdata = [PlotlyBase.scatter(x=[1,2,3])]
     @out hum_pdata = [PlotlyBase.scatter(x=[1,2,3])]
@@ -101,13 +101,5 @@ t_grid = range(minimum(data.t), maximum(data.t), length=N_steps) |> collect
     end
 end
 
-ui() =[
-       h1("train and predict"),btn("Train", @click(:start), loading=:start), 
-       range(1:100,:r),
-       cell(class="row"),
-       GenieFramework.plot(:temp_pdata, layout=:temp_layout), 
-       GenieFramework.plot(:hum_pdata, layout=:hum_layout),
-       GenieFramework.plot(:wind_pdata, layout=:wind_layout),
-       GenieFramework.plot(:press_pdata, layout=:press_layout)
-      ]
 @page("/","app.jl.html")
+end

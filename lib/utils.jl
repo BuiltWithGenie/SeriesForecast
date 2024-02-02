@@ -1,3 +1,6 @@
+module Utils
+using PlotlyBase, DataFrames, Statistics, Interpolations
+export rescale_t, rescale_y, calc_mse, plot_pred, get_layout, get_traces
 
 rescale_t(x) = t_scale .* x .+ t_mean
 rescale_y(x,i) = y_scale[i] .* x .+ y_mean[i]
@@ -16,24 +19,19 @@ function plot_pred(t, y, t̂, ŷ; kwargs...)
     return traces
 end
 
-predict(y0, t, θ, state) = begin
-    node, _, _ = neural_ode(t, length(y0))
-    ŷ = Array(node(y0, θ, state)[1])
-end
-
 get_layout(title, xlabel, ylabel) = PlotlyBase.Layout(
     #= title=title, =#
     xaxis=attr( title=xlabel, showgrid=false),
     yaxis=attr( title=ylabel, showgrid=true),
-    margin=attr(l=5, r=5, t=5, b=5),
+    #= margin=attr(l=5, r=5, t=15, b=5), =#
     legend=attr( x=1, y=1.02, yanchor="bottom", xanchor="right", orientation="h"),
    )
 
 function get_traces(t_train, t_predict, y_train, ŷ, y_test, quantity_idx)
     [           
-     PlotlyBase.scatter(x=rescale_t(t_predict), y=rescale_y(ŷ,quantity_idx), mode="line", name="ŷ"),
+     PlotlyBase.scatter(x=rescale_t(t_predict), y=rescale_y(ŷ,quantity_idx), mode="line", name="ŷ",line=attr(color="black")),
      PlotlyBase.scatter(x=rescale_t(t_train), y=rescale_y(y_train,quantity_idx), mode="markers", marker=attr(size=10, line=attr(width=2, color="DarkSlateGrey")), name = "y_train"),
-     PlotlyBase.scatter(x=rescale_t(t_test), y=rescale_y(y_test,quantity_idx), mode="markers", name = "y_test")
+     PlotlyBase.scatter(x=rescale_t(t_test), y=rescale_y(y_test,quantity_idx), mode="markers", name = "y_test", marker=attr(size=6, color="orange"))
     ]
 end
 
@@ -51,9 +49,9 @@ function get_traces(train_df, test_df, predict_df, norm)
     for (i, col_name) in zip(1:4, names(train_df)[2:end])
             # Generate traces for each feature
             feature_traces = [
-                PlotlyBase.scatter(x=rescale_t(predict_df.t), y=rescale_y(predict_df[!, col_name], i), mode="line", name="Predict"),
-                PlotlyBase.scatter(x=rescale_t(train_df.t), y=rescale_y(train_df[!, col_name], i), mode="markers", marker=attr(size=10, line=attr(width=2, color="DarkSlateGrey")), name = "Train"),
-                PlotlyBase.scatter(x=rescale_t(test_df.t), y=rescale_y(test_df[!, col_name], i), mode="markers", name = "Test")
+                PlotlyBase.scatter(x=rescale_t(predict_df.t), y=rescale_y(predict_df[!, col_name], i), mode="line", line=attr(color="black"), name="Predict"),
+                PlotlyBase.scatter(x=rescale_t(train_df.t), y=rescale_y(train_df[!, col_name], i), mode="markers", marker=attr(size=10, color="darkcyan", line=attr(width=0, color="DarkSlateGrey")), name = "Train"),
+                PlotlyBase.scatter(x=rescale_t(test_df.t), y=rescale_y(test_df[!, col_name], i), mode="markers", marker=attr(size=6, color="orange"), name = "Test")
             ]
 
             # Add the set of traces to the list
@@ -61,4 +59,5 @@ function get_traces(train_df, test_df, predict_df, norm)
     end
 
     return all_traces
+end
 end
