@@ -1,3 +1,6 @@
+name = "SeriesForecast"
+imgname = "forecast"
+version = "0.0.1"
 [deps]
 BSON = "fbb218c0-5317-5bc6-957e-2ee96dd4b1f0"
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
