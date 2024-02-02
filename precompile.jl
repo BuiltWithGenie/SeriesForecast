@@ -1,6 +1,6 @@
 
 using GenieFramework
 using HTTP
-include("app.jl")
+Genie.loadapp()
 up(async=true)
 HTTP.get("http://localhost:8000/");
