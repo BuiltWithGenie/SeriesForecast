@@ -2,7 +2,7 @@
 
 Demo app using Neural ODEs to forecast time series of weather data in Delhi.
 
-<video src="odefullapp.gif" />
+![](odefullapp.gif)
 
 ## Installation
 
