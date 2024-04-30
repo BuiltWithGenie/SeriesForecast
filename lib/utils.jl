@@ -21,10 +21,13 @@ end
 
 get_layout(title, xlabel, ylabel) = PlotlyBase.Layout(
     #= title=title, =#
+                                    Dict{Symbol,Any}(:paper_bgcolor => "rgb(242, 246, 247)",
+                                     :plot_bgcolor => "rgb(242, 246, 247)");
     xaxis=attr( title=xlabel, showgrid=false),
     yaxis=attr( title=ylabel, showgrid=true),
     #= margin=attr(l=5, r=5, t=15, b=5), =#
     legend=attr( x=1, y=1.02, yanchor="bottom", xanchor="right", orientation="h"),
+    backgroundcolor="red",
    )
 
 function get_traces(t_train, t_predict, y_train, ŷ, y_test, quantity_idx)

@@ -29,13 +29,13 @@
             </div>
         </div>
         <div class="col-2 col-sm" style="text-align:center">
-            <q-btn :loading="start" label="Train" v-on:click="start = true" color="$button_color" :disable="$prod_mode">
+            <q-btn style="width:87px" :loading="start" label="Train" v-on:click="start = true" color="$button_color" :disable="$prod_mode">
                 <q-tooltip>
                     $button_tooltip
                 </q-tooltip>
             </q-btn><br>
             <q-btn style="margin-top:15px" :loading="animate" label="Animate" v-on:click="animate = true" color="primary"></q-btn><br>
-            <q-btn style="margin-top:15px" push color="secondary" label="app info">
+            <q-btn style="margin-top:15px" color="secondary" label="App info">
                 <q-popup-proxy>
                     <q-banner>
                         This app uses a neural ordinary differential equation (NODE) to forecast weather data from Delhi. The forecast is implemented with the DiffeqFlux, DifferentialEquations, Optimization and Lux packages, and the code is based on the <a href="https://sebastiancallh.github.io/post/neural-ode-weather-forecast/">blog post</a> by Sebastian Callh.
@@ -46,22 +46,22 @@
         <div class="row">
             <div class="st-col col-12 st-module">
                 <div class="row">
-                    <div class="st-col col-12 col-sm ">
-                        <h4 style="text-align:center;margin-bottom:5px">Temperature</h4>
+                    <div class="st-col col-12 col-sm "style="padding-right:10px">
+                        <h4 style="text-align:center;margin-bottom:10px">Temperature</h4>
                         <plotly :data="temp_pdata" :layout="temp_layout" :displaylogo="false"></plotly>
                     </div>
-                    <div class="st-col col-12 col-sm ">
-                        <h4 style="text-align:center;margin-bottom:5px">Humidity</h4>
+                    <div class="st-col col-12 col-sm "style="padding-left:10px">
+                        <h4 style="text-align:center;margin-bottom:10px">Humidity</h4>
                         <plotly :data="hum_pdata" :layout="hum_layout" :displaylogo="false"></plotly>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="st-col col-12 col-sm ">
-                        <h4 style="text-align:center;margin:0px">Wind</h4>
+                    <div class="st-col col-12 col-sm " style="padding-right:10px">
+                        <h4 style="text-align:center;margin:0px;margin-bottom:10px">Wind</h4>
                         <plotly :data="wind_pdata" :layout="wind_layout" :displaylogo="false"></plotly>
                     </div>
-                    <div class="st-col col-12 col-sm ">
-                        <h4 style="text-align:center;margin:0px">Pressure</h4>
+                    <div class="st-col col-12 col-sm " style="padding-left:10px">
+                        <h4 style="text-align:center;margin:0px;margin-bottom:10px">Pressure</h4>
                         <plotly :data="press_pdata" :layout="press_layout" :displaylogo="false"></plotly>
                     </div>
                 </div>

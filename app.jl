@@ -8,6 +8,7 @@ using ..Delhi
 using ..Utils
 @genietools
 
+
 const prod_mode = (haskey(ENV, "GENIE_ENV") && ENV["GENIE_ENV"] == "prod") ? "true" : "false"
 const button_color = prod_mode == "true" ? "grey" : "primary"
 const button_tooltip = prod_mode == "true" ? "Run the app locally to enable this button" : ""
@@ -21,9 +22,7 @@ else
     @save "data.jld2" train_df test_df scaling
 end
 
-if isfile("params.jld")
-    @load "params.jld" θ
-end
+
 const features = [:meantemp, :humidity, :wind_speed, :meanpressure]
 const units = ["Celsius", "g/m³ of water", "km/h", "hPa"]
 const feature_names = ["Mean temperature", "Humidity", "Wind speed", "Mean pressure"]
@@ -39,16 +38,18 @@ const obs_grid = 4:4:20 # we train on an increasing amount of the first k obs
 const maxiters = 150
 const lr = 5e-3
 const N_steps = 100 # number of points in prediction over the full time range
-_, θ_new, init_state = neural_ode(train_df.t, length(features))
+_, _, init_state = neural_ode(train_df.t, length(features))
 t_grid = range(minimum(data.t), maximum(data.t), length=N_steps) |> collect
-# We cache the predictions for the full time range to avoid recomputing them
+# We can cache the predictions for the full time range to avoid recomputing them
 #= const ŷ_cached = predict(Vector(train_df[1,features]), t_grid, θ, init_state) =#
+
+@load "params.jld2" θ
 
 @app begin
     @in start=false
     @in animate=false
     @out prod_mode = prod_mode
-    @out θ=θ
+    @private θ=θ
     @out losses = Float32[]
     @out temp_pdata = [PlotlyBase.scatter(x=[1,2,3])]
     @out hum_pdata = [PlotlyBase.scatter(x=[1,2,3])]
@@ -61,7 +62,7 @@ t_grid = range(minimum(data.t), maximum(data.t), length=N_steps) |> collect
     @in r = 30
     @in pstep=1
     @out mse = [0.0,0.0,0.0,0.0]
-    @in k = 20
+    @private k = 20
 
     @private state = init_state
     @onbutton start begin
@@ -72,7 +73,7 @@ t_grid = range(minimum(data.t), maximum(data.t), length=N_steps) |> collect
         # We pass the Observable version of θ to `train` , which will update its value during training.
         # When the training is finished we store the final value in θ
         θ, state = train(Vector(train_df[!,:t]), Matrix(train_df[!,features]), obs_grid, maxiters, lr, rng, __model__.θ; progress=true);
-        @save "params.jld" θ
+        @save "params.jld2" θ
     end
     @onchange r begin
         k = 20

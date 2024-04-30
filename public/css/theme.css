@@ -1,0 +1,255 @@
+:root.stipple-core {
+  /* ===================== VARIABLES ===================== */
+
+  /* ===================== main colors ===================== */
+  /* ----------- background colors ------------ */
+  --st-background-color-1: #ffffff;
+  --st-background-color-2: #efefef;
+  --st-background-color-3: #c4c4c4;
+  
+  /* ----------- foreground colors ------------ */
+  --st-foreground-color-1: #000000;
+  --st-foreground-color-2: #393939;
+  --st-foreground-color-3: #747474;
+  
+  /* =========== border colors =========== */
+  --st-border-color-1: #cccccc80;
+  --st-border-color-2: #cccccc40;
+  --st-border-color-3: #cccccc20;
+
+  /* =========== text colors =========== */
+  --st-head-color: #111827;
+  
+  /* =========== framework colors =========== */
+  --q-color-primary: #38bdf8;
+  --q-color-secondary: #8ea8c3;
+  --q-color-accent: #bea7e5;
+  --q-color-info: #373b44;
+  --q-color-positive: #72c8a9;
+  --q-color-negative: #c10015;
+  --q-color-warning: #f2c037;
+  
+  /* =========== dashboard colors =========== */
+  --st-dashboard-line: #e2e2e2;
+  --st-dashboard-module: #fcfcfc;
+  --st-skeleton: #e1e5ee;
+  
+  /* =========== actionable =========== */
+  --st-action-color: #38bdf8;
+  --st-action-color-hover: #09d1f9;
+
+  /* =========== font sizes =========== */
+  --st-font-size-normal: 13px;
+  
+  /* =========== decorations =========== */
+  --st-box-shadow-color: #00000020;
+  --st-scrollbar-thumb: #619abd;
+
+}
+:root.stipple-core.dark {
+  /* ===================== VARIABLES ===================== */
+
+  /* ===================== main colors ===================== */
+  /* ----------- background colors ------------ */
+  --st-background-color-1: #101827;
+  --st-background-color-2: #162134;
+  --st-background-color-3: #202f47;
+  
+  /* ----------- foreground colors ------------ */
+  --st-foreground-color-1: #e6e6e6;
+  --st-foreground-color-2: #575454;
+  --st-foreground-color-3: #5a6460;
+  
+  /* =========== border colors =========== */
+  --st-border-color-1: #cccccc80;
+  --st-border-color-2: #cccccc40;
+  --st-border-color-3: #cccccc20;
+
+  /* =========== text colors =========== */
+  --st-head-color: #38bdf8;
+  
+  /* =========== framework colors =========== */
+  --q-color-primary: #38bdf8;
+  --q-color-secondary: #8ea8c3;
+  --q-color-accent: #bea7e5;
+  --q-color-info: #373b44;
+  --q-color-positive: #72c8a9;
+  --q-color-negative: #c10015;
+  --q-color-warning: #f2c037;
+  
+  /* =========== dashboard colors =========== */
+  --st-dashboard-line: #e2e2e2;
+  --st-dashboard-module: #fcfcfc;
+  --st-skeleton: #e1e5ee;
+  
+  /* =========== actionable =========== */
+  --st-action-color: #38bdf8;
+  --st-action-color-hover: #09d1f9;
+
+  /* =========== font sizes =========== */
+  --st-font-size-normal: 13px;
+  
+  /* =========== decorations =========== */
+  --st-box-shadow-color: #2483ab70;
+  --st-scrollbar-thumb: #153f6c;
+
+}
+
+/* ===================== DERIVED ===================== */
+/* =========== Derived colors =========== */
+:root.stipple-core {
+  --st-text-1: var(--st-foreground-color-1);
+  --st-text-2: var(--st-foreground-color-2);
+  --st-text-3: var(--st-foreground-color-3);
+  
+  --st-dashboard-bg: var(--st-background-color-1);
+  --q-color-white: var(--st-background-color-1);
+}
+
+
+/* ===================== Global Text ===================== */
+:root.stipple-core body {
+  color: var(--st-text-1);
+  font-size: var(--st-font-size-normal);
+}
+
+/* ===================== HEADERS ===================== */
+:root.stipple-core h1{
+  color: var(--st-head-color);
+  font-weight: bold;
+  font-size: 2.2rem;
+}
+:root.stipple-core h2{
+  color: var(--st-head-color);
+  font-weight: bold;
+  font-size: 1.8rem;
+}
+:root.stipple-core h3{
+  color: var(--st-head-color);
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+:root.stipple-core h4{
+  color: var(--st-head-color);
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+:root.stipple-core h5{
+  color: var(--st-head-color);
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+:root.stipple-core h6 {
+  color: var(--st-head-color);
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+
+/* ===================== LINKS ===================== */
+.stipple-core a {
+  color: var(--st-action-color);
+}
+.stipple-core a:hover {
+  color: var(--st-action-color-hover);
+}
+
+/* ===================== Modules ===================== */
+.stipple-core .st-module {
+  padding-top: 10px !important;
+  border: 3px solid var(--st-border-color-3);
+}
+.container{
+  max-width: 100% !important;
+}
+
+/* ===================== Components ===================== */
+.stipple-core .q-btn {
+  color: var(--st-background-color-1) !important;
+}
+
+.q-field__input,
+.q-field__native,
+.q-field__prefix,
+.q-field__suffix {
+  color: var(--st-text-1);
+}
+.q-field__label {
+  color: var(--st-text-1);
+  opacity: 0.6;
+}
+.q-field--standard .q-field__control:before {
+  border-bottom: 1px solid var(--st-border-color-2);
+}
+.q-field--standard .q-field__control:hover {
+  border-bottom: 1px solid var(--st-border-color-1);
+}
+
+.q-field__marginal {
+  color: var(--st-border-color-1);
+}
+
+.q-menu {
+  background-color: var(--q-color-white);
+  box-shadow: 1px 3px 10px 2px var(--st-box-shadow-color);
+}
+
+.q-chip {
+  vertical-align: middle;
+  outline: 0;
+  position: relative;
+  max-width: 100%;
+  margin: 4px;
+  background: var(--q-color-primary);
+  color: var(--st-background-color-1) !important;
+  padding: 3px 6px 3px 10px !important;
+  font-weight: normal !important;
+  font-size: 0.8em;
+}
+
+.stipple-core .q-time__clock-position, .stipple-core .q-date button, .stipple-core .q-date__calendar-item{
+  color: #000 !important;
+}
+
+
+
+/* ===================== Scrollbars ===================== */
+*::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+*::-webkit-scrollbar-track {
+  border-radius: 5px;
+  background-color: var(--st-border-color-3);
+  border: none;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: var(--st-scrollbar-thumb);
+}
+
+
+/* ===================== Genie Logo (WIP) ===================== */
+._genie_logo {
+  filter: brightness(11);
+  margin-left: 5px;
+}
+
+/* ===================== Charts (WIP) ===================== */
+.main-svg {
+  background: none;
+}
+
+svg .xgrid,
+svg .ygrid,
+svg .xzl,
+svg .yzl {
+  stroke: #192a45 !important;
+  stroke-width: 1px !important;
+}
+svg .draglayer {
+  background-color: #2a446e !important;
+}
+
