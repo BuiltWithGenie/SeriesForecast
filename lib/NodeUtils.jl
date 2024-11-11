@@ -48,8 +48,7 @@ Perform one round of training for the neural ODE model.
 Updates the model's parameters by minimizing the loss function
 using the specified optimizer. Returns the updated parameters and state.
 """
-function train_one_round(node, θ, state, y, opt, maxiters, rng, y0=y[1, :]; kwargs...)
-    @show "innn"
+function train_one_round(node, θ, state, y, opt, rng, y0=y[1, :]; kwargs...)
     predict(θ) = Array(node(y0, θ, state)[1])
     loss(θ) = sum(abs2, predict(θ)' .- y)
     @show size(y), size(y0), size(predict(θ))
@@ -57,7 +56,7 @@ function train_one_round(node, θ, state, y, opt, maxiters, rng, y0=y[1, :]; kwa
     adtype = Optimization.AutoZygote()
     optf = OptimizationFunction((θ, p) -> loss(θ), adtype)
     optprob = OptimizationProblem(optf, θ)
-    res = solve(optprob, opt, maxiters=maxiters; kwargs...)
+    res = solve(optprob, opt; kwargs...)
     res.minimizer, state
 end
 
@@ -69,7 +68,7 @@ Iteratively updates the model parameters and logs the results.
 Returns the collection of parameter updates, final state, and losses.
 θs is an Observable that is udpdated after every training step
 """
-function train(t, y, obs_grid, maxiters, lr, rng, θs; kwargs...)
+function train(t, y, obs_grid, lr, rng, θs; kwargs...)
     θ=nothing
     state=nothing
     
@@ -78,7 +77,7 @@ function train(t, y, obs_grid, maxiters, lr, rng, θs; kwargs...)
         if θ === nothing θ = θ_new end
         if state === nothing state = state_new end
 
-        θ, state = train_one_round( node, θ, state, y[1:k,:], Optimisers.ADAMW(lr), maxiters, rng; kwargs...)
+        θ, state = train_one_round( node, θ, state, y[1:k,:], Optimisers.ADAMW(lr),rng; kwargs...)
         @show k, size(y)
         θs[] = θ
     end

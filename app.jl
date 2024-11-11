@@ -38,7 +38,7 @@ const obs_grid = 4:4:20 # we train on an increasing amount of the first k obs
 const maxiters = 150
 const lr = 5e-3
 const N_steps = 100 # number of points in prediction over the full time range
-_, _, init_state = neural_ode(train_df.t, length(features))
+_, θ, init_state = neural_ode(train_df.t, length(features))
 t_grid = range(minimum(data.t), maximum(data.t), length=N_steps) |> collect
 # We can cache the predictions for the full time range to avoid recomputing them
 #= const ŷ_cached = predict(Vector(train_df[1,features]), t_grid, θ, init_state) =#
@@ -64,7 +64,7 @@ t_grid = range(minimum(data.t), maximum(data.t), length=N_steps) |> collect
     @out mse = [0.0,0.0,0.0,0.0]
     @private k = 20
 
-    @private state = init_state
+    @private state::Any = init_state
     @onbutton start begin
         println("Training")
         # change k and r to display the correct number of training points and the prediction over the entire range
@@ -72,8 +72,9 @@ t_grid = range(minimum(data.t), maximum(data.t), length=N_steps) |> collect
         @show size(Matrix(train_df[!,features]))
         # We pass the Observable version of θ to `train` , which will update its value during training.
         # When the training is finished we store the final value in θ
-        θ, state = train(Vector(train_df[!,:t]), Matrix(train_df[!,features]), obs_grid, maxiters, lr, rng, __model__.θ; progress=true);
-        @save "params.jld2" θ
+        θ, state = train(Vector(train_df[!,:t]), Matrix(train_df[!,features]), obs_grid, lr, rng, __model__.θ; maxiters=maxiters);
+        
+        JLD2.save("params.jld2"; θ)
     end
     @onchange r begin
         k = 20
@@ -90,7 +91,7 @@ t_grid = range(minimum(data.t), maximum(data.t), length=N_steps) |> collect
         ŷ = predict(Vector(train_df[1,features]), t_predict, θ, state)
         predict_df = DataFrame(t = t_predict, meantemp = ŷ[1,:], humidity = ŷ[2,:], wind_speed = ŷ[3,:], meanpressure = ŷ[4,:])
         temp_pdata, hum_pdata, wind_pdata, press_pdata = get_traces(data[1:k,:], data[k+1:end,:], predict_df, scaling)
-
+        
         mse = [calc_mse(t_predict, ŷ[i,:], interpolators[i]) for i in 1:4]
     end
 

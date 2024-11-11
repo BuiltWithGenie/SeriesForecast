@@ -1,69 +1,71 @@
-<header class="st-header q-pa-sm" style="text-align:center">
+<header id="ixsk" class="st-header q-pa-sm">
     <h1 class="st-header__title text-h3">Weather data forecast</h1>
 </header>
-
-<div class="row  st-module" style="padding:15px">
-    <div class=" col-6">
-        <h4 style="text-align:center;margin:0px">Mean-squared error</h4>
-        <div class="row">
-            <st-big-number :number="mse[0]" title="Temperature" ></st-big-number>
-            <st-big-number :number="mse[1]" title="Humidity" ></st-big-number>
-            <st-big-number :number="mse[2]" title="Wind" ></st-big-number>
-            <st-big-number :number="mse[3]" title="Pressure" ></st-big-number>
+<div class="row">
+    <div id="iivt7" class="st-module">
+        <h6 id="iqanm"><span id="imrvv">Mean-squared error</span></h6>
+        <div id="i2x43">
+            <st-big-number id="ilrgj" :number="mse[0]" title="Temperature"></st-big-number>
+            <st-big-number id="i8o8q" :number="mse[3]" title="Pressure"></st-big-number>
+            <st-big-number id="i1dwj" :number="mse[2]" title="Wind"></st-big-number>
+            <st-big-number id="iki2r" :number="mse[1]" title="Humidity"></st-big-number>
         </div>
     </div>
-    <q-separator vertical />
-
-        <div class="col-4 col-sm" style="padding-left:50px;padding-top:15px">
-            <q-badge color="secondary">
+    <div class="col-12 col-sm st-module">
+        <div id="iaizc" class="col-4 col-sm">
+            <q-badge id="inm59" color="primary">
                 Prediction horizon (samples)
             </q-badge>
-            <q-slider :min=30 v-model="r" :max=100 :step=1 label-always></q-slider>
-            <q-badge color="secondary">
+            <q-slider id="in2wj" :min="30" v-model="r" :max="100" :step="1" :label-always="true"></q-slider>
+            <q-badge id="i48xk" color="primary">
                 Prediction step size (samples)
             </q-badge>
-            <div class="q-gutter-sm">
-                <q-radio val=1 label="1" v-model="pstep"></q-radio>
-                <q-radio val=2 label="2" v-model="pstep"></q-radio>
-                <q-radio val=5 label="5" v-model="pstep"></q-radio>
+            <div id="ihdmj" class="q-gutter-sm">
+                <q-radio id="im7zq" val="1" label="1" v-model="pstep"></q-radio>
+                <q-radio id="iamcg" val="2" label="2" v-model="pstep"></q-radio>
+                <q-radio id="izhd9" val="5" label="5" v-model="pstep"></q-radio>
             </div>
         </div>
-        <div class="col-2 col-sm" style="text-align:center">
-            <q-btn style="width:87px" :loading="start" label="Train" v-on:click="start = true" color="$button_color" :disable="$prod_mode">
-                <q-tooltip>
+    </div>
+    <div id="i0k0w" class="st-module">
+        <div id="ikvoi" class="container">
+            <q-btn id="ifwxl" :loading="start" label="Train" v-on:click="start = true" color="$button_color" :disable="$prod_mode">
+                <q-tooltip id="i80mg">
                     $button_tooltip
                 </q-tooltip>
-            </q-btn><br>
-            <q-btn style="margin-top:15px" :loading="animate" label="Animate" v-on:click="animate = true" color="primary"></q-btn><br>
-            <q-btn style="margin-top:15px" color="secondary" label="App info">
-                <q-popup-proxy>
+            </q-btn>
+            <q-btn id="i9sqz" :loading="animate" label="Animate" v-on:click="animate = true" color="primary"></q-btn>
+            <q-btn id="il288" color="primary" label="App info">
+                <q-popup-proxy id="i14xm">
                     <q-banner>
                         This app uses a neural ordinary differential equation (NODE) to forecast weather data from Delhi. The forecast is implemented with the DiffeqFlux, DifferentialEquations, Optimization and Lux packages, and the code is based on the <a href="https://sebastiancallh.github.io/post/neural-ode-weather-forecast/">blog post</a> by Sebastian Callh.
                     </q-banner>
                 </q-popup-proxy>
             </q-btn>
-        </div></div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="st-col col-12 st-module">
         <div class="row">
-            <div class="st-col col-12 st-module">
-                <div class="row">
-                    <div class="st-col col-12 col-sm "style="padding-right:10px">
-                        <h4 style="text-align:center;margin-bottom:10px">Temperature</h4>
-                        <plotly :data="temp_pdata" :layout="temp_layout" :displaylogo="false"></plotly>
-                    </div>
-                    <div class="st-col col-12 col-sm "style="padding-left:10px">
-                        <h4 style="text-align:center;margin-bottom:10px">Humidity</h4>
-                        <plotly :data="hum_pdata" :layout="hum_layout" :displaylogo="false"></plotly>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="st-col col-12 col-sm " style="padding-right:10px">
-                        <h4 style="text-align:center;margin:0px;margin-bottom:10px">Wind</h4>
-                        <plotly :data="wind_pdata" :layout="wind_layout" :displaylogo="false"></plotly>
-                    </div>
-                    <div class="st-col col-12 col-sm " style="padding-left:10px">
-                        <h4 style="text-align:center;margin:0px;margin-bottom:10px">Pressure</h4>
-                        <plotly :data="press_pdata" :layout="press_layout" :displaylogo="false"></plotly>
-                    </div>
-                </div>
+            <div id="i5f5e" class="st-col col-12 col-sm">
+                <h4 id="ixb7p">Temperature</h4>
+                <plotly :displaylogo="false" id="ichdu" :data="temp_pdata" :layout="temp_layout"></plotly>
+            </div>
+            <div id="ia4uv" class="st-col col-12 col-sm">
+                <h4 id="is1ih">Humidity</h4>
+                <plotly :displaylogo="false" id="ipa5w" :data="hum_pdata" :layout="hum_layout"></plotly>
             </div>
         </div>
+        <div class="row">
+            <div id="ie07i" class="st-col col-12 col-sm">
+                <h4 id="iohzq">Wind</h4>
+                <plotly :displaylogo="false" id="inplg" :data="wind_pdata" :layout="wind_layout"></plotly>
+            </div>
+            <div id="iljh4" class="st-col col-12 col-sm">
+                <h4 id="ivy2n">Pressure</h4>
+                <plotly :displaylogo="false" id="ijinh" :data="press_pdata" :layout="press_layout"></plotly>
+            </div>
+        </div>
+    </div>
+</div>
