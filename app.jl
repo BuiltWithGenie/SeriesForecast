@@ -74,7 +74,7 @@ t_grid = range(minimum(data.t), maximum(data.t), length=N_steps) |> collect
         # When the training is finished we store the final value in θ
         θ, state = train(Vector(train_df[!,:t]), Matrix(train_df[!,features]), obs_grid, lr, rng, __model__.θ; maxiters=maxiters);
         
-        JLD2.save("params.jld2"; θ)
+        jldsave("params.jld2"; θ)
     end
     @onchange r begin
         k = 20
