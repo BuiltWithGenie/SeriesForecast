@@ -23,5 +23,9 @@ DifferentialEquations = "0c46a032-eb83-5123-abaf-570d42b7fbaa"
 OptimizationOptimisers = "42dfb2eb-d2b4-4451-abcd-913932933ac1"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 
+[compat]
+GenieFramework = "2"
+julia = "1"
+
 [Genie]
 instantiated_pwd = "/Users/pere/genie/genieawesome/SeriesForecast"
